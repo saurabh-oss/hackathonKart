@@ -57,5 +57,10 @@ public class KartResource {
 	    public Kart get(@PathParam("id") String id) {
 	        return Kart.findById(new ObjectId(id));
 	    }
-	
+	    
+	    @GET
+	    @Path("/userId/{userId}")
+	    public Kart getKartForUserId(@PathParam("userId") String userId) {
+	        return Kart.findByUserId(userId);
+	    }
 }

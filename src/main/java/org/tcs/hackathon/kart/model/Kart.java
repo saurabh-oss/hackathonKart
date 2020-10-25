@@ -30,8 +30,8 @@ public class Kart extends PanacheMongoEntity {
 	private List<String> productIdList;
 	
 	
-	/*public static Kart findByKartId(String kartId) {
-        return find("id", kartId).firstResult();
-    }*/
+	public static Kart findByUserId(String userId) {
+        return find("userId", userId).firstResult();
+    }
 	
 }
