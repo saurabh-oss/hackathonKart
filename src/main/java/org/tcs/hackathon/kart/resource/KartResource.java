@@ -49,10 +49,11 @@ public class KartResource {
 	    @GET
 	    @Path("/{id}")
 	    public KartResponse get(@PathParam("id") String id) {
+	    	Kart karObj  = Kart.findById(new ObjectId(id));
 	    	KartResponse kartResponseObj = new KartResponse();
 	    	List<ProductDetails> prodDetailsList = new ArrayList<ProductDetails>();
 	    	kartResponseObj.setProdDetails(prodDetailsList);
-	    	Kart karObj  = Kart.findById(new ObjectId(id));
+	    	//Kart karObj  = Kart.findById(new ObjectId(id));
 	    	List<String> prodList = karObj.getProductList();
 	    	List<String> qtyList = karObj.getQtyList();
 	    	Iterator it = qtyList.iterator();
@@ -76,26 +77,35 @@ public class KartResource {
 	    @Path("/userId/{userId}")
 	    public KartResponse getKartForUserId(@PathParam("userId") String userId) {
 	    	KartResponse kartResponseObj = new KartResponse();
+	    	if(userId == null)
+	    		return kartResponseObj;
+	    	Kart karObj  = Kart.findByUserId(userId);
+	    	if(karObj == null)
+	    		return kartResponseObj;
 	    	List<ProductDetails> prodDetailsList = new ArrayList<ProductDetails>();
 	    	kartResponseObj.setProdDetails(prodDetailsList);
-	    	Kart karObj  = Kart.findByUserId(userId);
-	    	List<String> prodList = karObj.getProductList();
-	    	List<String> qtyList = karObj.getQtyList();
-	    	Iterator it = qtyList.iterator();
-	    	for(String currentProduct : prodList){
-	    		ProductDetails prodDetails = new ProductDetails();
-	    		prodDetails.setItemId(Integer.valueOf(currentProduct));
-	    		prodDetails.setQty(Integer.valueOf(it.next().toString()));
-	    		Product prod = Product.findByItemId(Integer.valueOf(currentProduct));
-	    		System.out.println("The product I am searching for is : " + Integer.valueOf(currentProduct) + " The object I got is : " + prod);
-	    		if(prod!= null){
-	    			prodDetails.setTitle(prod.getTitle());
-		    		prodDetails.setPrice(prod.getPrice());
-	    		}
-	    		prodDetailsList.add(prodDetails);
+	    	if(karObj.getProductList() != null){
+	    		List<String> prodList = karObj.getProductList();
+		    	List<String> qtyList = karObj.getQtyList();
+		    	Iterator it = null;
+		    	if(qtyList != null){
+		    		it = qtyList.iterator();
+		    	}
+		    	for(String currentProduct : prodList){
+		    		ProductDetails prodDetails = new ProductDetails();
+		    		prodDetails.setItemId(Integer.valueOf(currentProduct));
+		    		if(it != null)
+		    			prodDetails.setQty(Integer.valueOf(it.next().toString()));
+		    		Product prod = Product.findByItemId(Integer.valueOf(currentProduct));
+		    		System.out.println("The product I am searching for is : " + Integer.valueOf(currentProduct) + " The object I got is : " + prod);
+		    		if(prod!= null){
+		    			prodDetails.setTitle(prod.getTitle());
+			    		prodDetails.setPrice(prod.getPrice());
+		    		}
+		    		prodDetailsList.add(prodDetails);
+		    	}
 	    	}
 	    	kartResponseObj.setUserId(userId);
-	    	
 	        return kartResponseObj;
 	    }
 }
