@@ -2,12 +2,28 @@ package org.tcs.hackathon.kart.model;
 
 import java.util.List;
 
-import io.quarkus.mongodb.panache.MongoEntity;
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import org.bson.codecs.pojo.annotations.BsonId;
 
-@MongoEntity(collection = "Kart")
-public class Kart extends PanacheMongoEntity {
+import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
+
+@MongoEntity(collection = "Cart")
+public class Kart extends PanacheMongoEntityBase {
 	
+	
+	@BsonId
+	private String userIdentification;
+	
+	public String getUserIdentification() {
+		return userIdentification;
+	}
+
+	public void setUserIdentification(String userIdentification) {
+		this.userIdentification = userIdentification;
+	}
+
+
+
 	private String userId;
 	public String getUserId() {
 		return userId;
@@ -31,14 +47,14 @@ public class Kart extends PanacheMongoEntity {
 
 
 
-	private List<String> qtyList;
+	private List<Integer> qtyList;
 	
 	
-	public List<String> getQtyList() {
+	public List<Integer> getQtyList() {
 		return qtyList;
 	}
 
-	public void setQtyList(List<String> qtyList) {
+	public void setQtyList(List<Integer> qtyList) {
 		this.qtyList = qtyList;
 	}
 
