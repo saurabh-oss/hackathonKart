@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +20,13 @@ import org.tcs.hackathon.kart.model.Kart;
 import org.tcs.hackathon.kart.model.KartResponse;
 import org.tcs.hackathon.kart.model.Product;
 import org.tcs.hackathon.kart.model.ProductDetails;
+
+
+//import io.vertx.axle.core.eventbus.EventBus;
+import io.vertx.axle.core.eventbus.Message;
+
+//import javax.inject.Inject;
+import javax.enterprise.context.ApplicationScoped;
 
 
 @Path("/kart")
@@ -97,7 +105,8 @@ public class KartResource {
 	        Kart review = Kart.findById(new ObjectId(id));
 	        review.delete();
 	    }
-	    
+		
+		
 	    /*
 	    @GET
 	    @Path("/{id}")
@@ -163,5 +172,20 @@ public class KartResource {
 	        return kartResponseObj;
 	    }
 	    
+	    
+	    
+	    //@Inject EventBus bus;
+	    
+	    /* Need to remove this. This is jsut for checking if the delete-kart event is being consumed properly*/
+	    /*@GET
+	    @Path("/event/{userId}")
+	    public Response event(@PathParam("userId") String userId) {
+	    	//orderObj.setOrderIdentification(String.valueOf(orderObj.getOrderId()));
+	    	//orderObj.persist();
+	    	 Now that the order creation is a success. Kindly remove the kart
+	    	
+	    	bus.<String>send("delete-kart",userId);
+	        return Response.status(201).build();
+	    }*/
 	    
 }
