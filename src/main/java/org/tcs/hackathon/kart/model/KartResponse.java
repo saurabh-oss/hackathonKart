@@ -22,5 +22,14 @@ public class KartResponse {
 	}
 
 	private List<ProductDetails> prodDetails;
+	private String none;
+
+	public String getNone() {
+		return none;
+	}
+
+	public void setNone(String none) {
+		this.none = none;
+	}
 	
 }

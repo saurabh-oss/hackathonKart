@@ -13,6 +13,9 @@ public class Kart extends PanacheMongoEntityBase {
 	
 	@BsonId
 	private String userIdentification;
+	private String userId;
+	private List<String> productList;
+	private List<Integer> qtyList;
 	
 	public String getUserIdentification() {
 		return userIdentification;
@@ -24,7 +27,7 @@ public class Kart extends PanacheMongoEntityBase {
 
 
 
-	private String userId;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -35,7 +38,7 @@ public class Kart extends PanacheMongoEntityBase {
 
 	
 
-	private List<String> productList;
+	
 	
 	public List<String> getProductList() {
 		return productList;
@@ -45,11 +48,6 @@ public class Kart extends PanacheMongoEntityBase {
 		this.productList = productList;
 	}
 
-
-
-	private List<Integer> qtyList;
-	
-	
 	public List<Integer> getQtyList() {
 		return qtyList;
 	}
@@ -61,18 +59,4 @@ public class Kart extends PanacheMongoEntityBase {
 	public static Kart findByUserId(String userId) {
         return find("userId", userId).firstResult();
     }
-	
-	
-	
-	
-	public String toString(){
-		String msg = "Item listing is:";
-		if(productList == null){
-			System.out.println("I am getting nothing");
-		}else{
-			System.out.println("I am getting nothing ***************** " + productList);
-		}
-		return msg;
-	}
-	
 }

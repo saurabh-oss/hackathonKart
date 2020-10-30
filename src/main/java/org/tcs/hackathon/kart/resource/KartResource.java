@@ -43,13 +43,13 @@ public class KartResource {
 					HashMap<String,Integer> myKartMap = new HashMap<String,Integer>();
 					List<String> prodListexisting = karObj.getProductList();
 					List<String> prodListNew = kart.getProductList();
-					System.out.println("Putting in map  before: " + prodListexisting.size());
+					//System.out.println("Putting in map  before: " + prodListexisting.size());
 			    	if(prodListexisting != null && prodListNew != null){
 			    		Iterator itr = karObj.getQtyList().iterator();
 			    		for(String currentProductInDB : prodListexisting){
 			    			if(itr.hasNext()){
 			    				Integer qty = (Integer)(itr.next());
-			    				System.out.println("Putting in map : " + currentProductInDB);
+			    				//System.out.println("Putting in map : " + currentProductInDB);
 				    			myKartMap.put(currentProductInDB, qty);
 			    			}else{
 			    				myKartMap.put(currentProductInDB,0);
@@ -58,28 +58,37 @@ public class KartResource {
 			    		}
 			    		
 			    		List<Integer> updatedQtyList = new ArrayList<Integer>();
+			    		List<String> updatedProdList = new ArrayList<String>();
 			    		Iterator itrKart = kart.getQtyList().iterator();
 			    		for(String currentProductInKart : prodListNew){
 			    			Integer existingQty = 0;
+			    			int updatedQty = 0;
 			    			if(myKartMap.get(currentProductInKart) != null){
-			    				System.out.println("This is getting interesting Match Found currentProductInKart : " + currentProductInKart);
+			    				//System.out.println("This is getting interesting Match Found currentProductInKart : " + currentProductInKart);
 			    				existingQty = myKartMap.get(currentProductInKart);
 			    				Integer newQty = (Integer)(itrKart.next());
-			    				System.out.println("Existing Qty is  : " + existingQty);
-			    				System.out.println("New Qty is  : " + newQty);
-			    				int updatedQty = existingQty + newQty;
-			    				System.out.println("This is getting interesting updatedQty : " + updatedQty);
+			    				//System.out.println("Existing Qty is  : " + existingQty);
+			    				//System.out.println("New Qty is  : " + newQty);
+			    				updatedQty = existingQty + newQty;
+			    				//System.out.println("This is getting interesting updatedQty : " + updatedQty);
 			    				updatedQtyList.add(updatedQty);
 			    			}else{
 			    				Integer qty = (Integer)itrKart.next();
-			    				System.out.println("No match found for  : " + currentProductInKart);
-			    				System.out.println("No match found for  : " + qty);
-			    				updatedQtyList.add(qty);
+			    				updatedQty = qty;
+			    				//updatedQtyList.add(qty);
 			    			}
+			    			myKartMap.put(currentProductInKart,updatedQty);
 			    		}
-			    		System.out.println("My updatedQtyList is " + updatedQtyList);
+			    		//System.out.println("My updatedQtyList is " + updatedQtyList);
+			    		updatedQtyList = new ArrayList<Integer>();
+			    		updatedProdList = new ArrayList<String>();
+			    		for(String currItem : myKartMap.keySet()){
+			    			updatedProdList.add(currItem);
+			    			updatedQtyList.add(myKartMap.get(currItem));
+			    		}
 			    		kart.setQtyList(updatedQtyList);
 			    		kart.setUserIdentification(kart.getUserId());
+			    		kart.setProductList(updatedProdList);
 			    		kart.update();
 			    	}else{
 			    		kart.setUserIdentification(kart.getUserId());
@@ -143,8 +152,10 @@ public class KartResource {
 	    	if(userId == null)
 	    		return kartResponseObj;
 	    	Kart karObj  = Kart.findByUserId(userId);
-	    	if(karObj == null)
+	    	if(karObj == null){
+	    		kartResponseObj.setNone("None");
 	    		return kartResponseObj;
+	    	}
 	    	List<ProductDetails> prodDetailsList = new ArrayList<ProductDetails>();
 	    	kartResponseObj.setProdDetails(prodDetailsList);
 	    	if(karObj.getProductList() != null){
