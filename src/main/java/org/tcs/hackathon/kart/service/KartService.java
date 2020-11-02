@@ -16,6 +16,11 @@ public class KartService {
         //LocalDate birth = LocalDate.now().plusWeeks(Math.round(Math.floor(Math.random() * 20 * 52 * -1)));
         //EyeColor color = EyeColor.values()[(int)(Math.floor(Math.random() * EyeColor.values().length))];
 		Kart kartObj = Kart.findByUserId(userId);
+		System.out.println("***************************************************");
+		System.out.println("***************************************************");
+		System.out.println("***************************************************");
+		System.out.println("***************************************************");
+		System.out.println(" Deleting the kart Id : *************************************************** : " + userId);
 		kartObj.delete();
     }
 }
